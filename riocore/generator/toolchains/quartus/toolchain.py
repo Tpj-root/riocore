@@ -146,7 +146,7 @@ https://www.intel.com/content/www/us/en/programmable/quartushelp/17.0/reference/
         makefile_data.append("	rm -f smart.log *.rpt *.sof *.chg *.qsf *.qpf *.summary *.smsg *.pin *.jdi")
         makefile_data.append("")
         makefile_data.append("load: $(PROJECT).svf")
-        makefile_data.append('$(Q)$(ECHO) "Loading the bitstream."')
+        makefile_data.append('	$(Q)$(ECHO) "Loading the bitstream."')
         makefile_data.append("	openFPGALoader -c usb-blaster -m $(PROJECT).svf")
         makefile_data.append("")
         makefile_data.append("sload: $(PROJECT).svf")
