@@ -1,0 +1,40 @@
+EP2C5 
+
+
+144 - pin TQFP
+
+89 = I/O pins
+
+Number of PLL = 2
+Number of CLK Pins = 8
+Number of DPCLK Pins = 8
+Number of Global Clock Networks = 8
+
+
+
+
+show the location of the Cyclone II PLLs, CLK[]
+inputs, DPCLK[] pins, and clock control blocks.
+
+
+
+Table 2–5. M4K Memory Capacity & Distribution in Cyclone II Devices
+
+
+Device = EP2C5
+M4K Columns = 2
+M4K Blocks = 26
+Total RAM Bits = 119808
+
+
+Number of LVDS Channels 31(35)
+
+
+
+
+
+
+
+
+PINS DETAILS
+
