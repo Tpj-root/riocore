@@ -72,6 +72,8 @@ git clone https://github.com/multigcs/riocore.git
 cd riocore
 ```
 
+Using a TangNano9k or other board supported by the open-cad-suite? Check out the docker setup for an easy to use all in one way to run the riocore ui and generator, including flashing: [DOCKER](DOCKER.md)
+
 make sure that the toolchain matching your fpga is in the path:
 ```
 export PATH=$PATH:/opt/oss-cad-suite/bin/
@@ -134,12 +136,10 @@ make load
 
 You can find all the LinuxCNC related files in 'Output/BOARD_NAME/LinuxCNC/',
 
-to start LinuxCNC, you have to install the new component first:
+to start LinuxCNC, you have to install the rio component first:
 ```
-halcompile --install Output/BOARD_NAME/LinuxCNC/rio.c
+sudo halcompile --install riocore/files/rio.c
 ```
-*this step is necessary after every configuration change !*
-
 
 then you can start LinuxCNC with your new .ini file:
 ```
@@ -173,10 +173,9 @@ graph LR;
     Makefile--make-->Bitfile;
     Bitfile--make load-->FPGA;
     /Output-->/LinuxCNC;
-    /LinuxCNC-->rio.c;
+    /LinuxCNC-->riocomp.c;
     /LinuxCNC-->rio.ini
     /LinuxCNC-->rio-gui.xml
     /LinuxCNC-->*.hal;
-    rio.c--halcompile-->hal-component;
 ```
 

@@ -15,6 +15,9 @@ import sys
 import time
 from functools import partial
 
+if os.path.isfile("./riocore/__init__.py"):
+	sys.path.insert(0, "./")
+
 import graphviz
 import riocore
 from riocore import halpins
@@ -242,7 +245,7 @@ class TabLinuxCNC:
             "rio.hal": QPlainTextEdit(),
             "custom_postgui.hal": QPlainTextEdit(),
             "rio-gui.xml": QPlainTextEdit(),
-            "rio.c": QPlainTextEdit(),
+            "riocomp.c": QPlainTextEdit(),
         }
         self.linuxcnc_tabwidget = QTabWidget()
         for filename, widget in self.linuxcnc.items():
@@ -2165,8 +2168,8 @@ class WinForm(QWidget):
                 self.info_widget.setText("ERROR: linuxcnc is running")
             else:
                 self.generate_cb(preview=True)
-                if "rio-gui.xml" in self.linuxcnc:
-                    xml_data = self.linuxcnc["rio-gui.xml"].toPlainText()
+                if "rio-gui.xml" in self.tabs["LinuxCNC"].linuxcnc:
+                    xml_data = self.tabs["LinuxCNC"].linuxcnc["rio-gui.xml"].toPlainText()
                     if xml_data:
                         tmp_file = ".tmp_rio-gui.xml"
                         os.system('ps fax | grep "pyvcp .tmp_rio-gui.xml" | grep -v grep | cut -d" " -f1 | xargs -r -l kill -4')
@@ -2271,6 +2274,9 @@ class WinForm(QWidget):
         self.tree_expand("/Modules/")
 
     def load_tree(self, expand=None):
+        toolchain = self.board.get("toolchain")
+        toolchains = self.board.get("toolchains", [toolchain])
+
         while self.model.rowCount() > 0:
             self.model.removeRow(0)
 
@@ -2278,6 +2284,7 @@ class WinForm(QWidget):
             "name": {"type": str},
             "description": {"type": str},
             "boardcfg": {"type": "select", "options": self.boards},
+            "toolchain": {"type": "select", "options": toolchains, "default": toolchain},
             "protocol": {"type": "select", "options": self.interfaces, "default": "SPI"},
         }.items():
             aitem = MyStandardItem()
@@ -3564,7 +3571,7 @@ class WinForm(QWidget):
 
         if name[0]:
             if not name[0].endswith(".json"):
-                name[0] = f"{name[0]}.json"
+                name = [f"{name[0]}.json"]
             self.save_config(name[0])
             self.config_file = name[0]
             self.config_original = self.clean_config(self.config)
